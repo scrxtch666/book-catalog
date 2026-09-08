@@ -1,0 +1,14 @@
+CREATE TABLE books (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  author VARCHAR(255) NOT NULL,
+  year INT,
+  annotation TEXT,
+  rating DECIMAL(3,1)
+);
+
+CREATE TABLE admin_users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(100) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL
+);

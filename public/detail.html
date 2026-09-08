@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Detail knihy</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="container-layout">
+      <header class="navbar">
+        <a href="./index.html">zpět</a>
+        <h2>Detail</h2>
+
+        <div class="nav-actions">
+          <a href="#" class="btn-print">Vytisknout seznam</a>
+          <a href="./admin.html" class="btn-login">Přihlásit se</a>
+        </div>
+      </header>
+
+      <div id="books"></div>
+
+      <script>
+        const container = document.getElementById("books");
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookId = urlParams.get("id");
+
+        if (bookId) {
+          fetch(`/api/books.php?id=${bookId}`)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Knihu se nepodařilo načíst.");
+              }
+              return response.json();
+            })
+            .then((book) => {
+              container.innerHTML = `
+                <div class="book">
+                      <h2>${book.title}</h2>
+                      <p>Autor: ${book.author}</p>
+                      <p>Rok vydání: ${book.year}</p>
+                      <p>Anotace: ${book.annotation}</p>
+                      <p>Hodnocení: ${book.rating} / 5</p>
+                </div>
+              `;
+            })
+            .catch((error) => {
+              container.innerHTML = `<p style="color: red;">Chyba: ${error.message}</p>`;
+            });
+        } else {
+          container.innerHTML = "<p>Chyba: V adrese chybí ID knihy.</p>";
+        }
+      </script>
+    </div>
+  </body>
+</html>

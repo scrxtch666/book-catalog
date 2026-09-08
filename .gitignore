@@ -1,0 +1,7 @@
+node_modules/
+*.css.map
+.env
+.DS_Store
+Thumbs.db
+.vscode/
+*.log

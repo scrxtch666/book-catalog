@@ -1,0 +1,29 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public:/var/www/html
+      - ./src:/var/www/src
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: books
+      DB_USER: books_user
+      DB_PASSWORD: secret
+
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_DATABASE: books
+      MARIADB_USER: books_user
+      MARIADB_PASSWORD: secret
+      MARIADB_ROOT_PASSWORD: rootsecret
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+volumes:
+  db_data:
