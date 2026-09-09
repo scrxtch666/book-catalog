@@ -6,11 +6,9 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
-
     <div class="container-layout">
-
-      <header class="navbar">
-        <H2>Seznam knih</h2>
+      <header class="navbar no-print">
+        <h2>Seznam knih</h2>
         <div class="search-bar">
           <input type="text" placeholder="Zadejte název knihy..." />
           <button type="submit" aria-label="Hledat">
@@ -27,7 +25,7 @@
         </div>
 
         <div class="nav-actions">
-          <a href="#" class="btn-print">Vytisknout seznam</a>
+          <a href="#" class="btn-print" id="print-btn">Vytisknout seznam</a>
           <a href="./admin.html" class="btn-login">Přihlásit se</a>
         </div>
       </header>
@@ -45,7 +43,7 @@
               div.innerHTML = `
               <a href="./detail.html?id=${book.id}">
                 <div class="book">
-                    <h2>${book.title}</h2>
+                    <h3>${book.title}</h3>
                     <p>Autor: ${book.author}</p>
                     <p>Rok vydání: ${book.year}</p>
                 </div>
@@ -55,6 +53,10 @@
               container.appendChild(div);
             });
           });
+
+        document.getElementById("print-btn").addEventListener("click", () => {
+          window.print();
+        });
       </script>
     </div>
   </body>

@@ -29,14 +29,14 @@
           fetch(`/api/books.php?id=${bookId}`)
             .then((response) => {
               if (!response.ok) {
-                throw new Error("Knihu se nepodařilo načíst.");
+                throw new Error(`Kniha s id ${bookId} neexistuje.`);
               }
               return response.json();
             })
             .then((book) => {
               container.innerHTML = `
                 <div class="book">
-                      <h2>${book.title}</h2>
+                      <h3>${book.title}</h3>
                       <p>Autor: ${book.author}</p>
                       <p>Rok vydání: ${book.year}</p>
                       <p>Anotace: ${book.annotation}</p>
@@ -45,7 +45,7 @@
               `;
             })
             .catch((error) => {
-              container.innerHTML = `<p style="color: red;">Chyba: ${error.message}</p>`;
+              container.innerHTML = `<p class="error-message">${error.message}</p>`;
             });
         } else {
           container.innerHTML = "<p>Chyba: V adrese chybí ID knihy.</p>";
