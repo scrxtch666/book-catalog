@@ -1,3 +1,8 @@
+<?php
+
+require_once __DIR__ . '/../admin/config/auth.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +11,6 @@
     <title>Administrace</title>
 </head>
 <body>
-    Admin
+  Vítejte v administraci.
 </body>
 </html>
