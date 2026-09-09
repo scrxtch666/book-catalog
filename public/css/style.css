@@ -238,4 +238,11 @@ a {
   transform: translateY(-1px);
 }
 
+.login-error {
+  margin-bottom: 20px;
+  color: #f72d2d;
+  font-size: 14px;
+  font-style: italic;
+}
+
 /*# sourceMappingURL=style.css.map */

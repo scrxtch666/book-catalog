@@ -17,7 +17,7 @@ $stmt->execute([$username]);
 $user = $stmt->fetch();
 
 if (!$user || !password_verify($password, $user['password_hash'])) {
-    header('Location: ../login.html');
+    header('Location: ../login.html?error=invalid_credentials');
     exit;
 }
 

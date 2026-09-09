@@ -34,10 +34,19 @@
               required
             />
           </div>
-
+          <div id="login-error" class="login-error"></div>
           <button type="submit" class="login-button">Přihlásit se</button>
         </form>
       </div>
     </div>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const error = params.get("error");
+
+      if (error === "invalid_credentials") {
+        document.getElementById("login-error").textContent =
+          "* Nesprávné uživatelské jméno nebo heslo.";
+      }
+    </script>
   </body>
 </html>
