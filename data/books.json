@@ -1,0 +1,23 @@
+[
+  {
+    "title": "1984",
+    "author": "George Orwell",
+    "year": 1949,
+    "annotation": "Dystopický román popisující svět pod neustálým dohledem Velkého bratra.",
+    "rating": 4.8
+  },
+  {
+    "title": "Malý princ",
+    "author": "Antoine de Saint-Exupéry",
+    "year": 1943,
+    "annotation": "Filosofická pohádka o přátelství, lásce a odpovědnosti k těm, které si k tělu připoutáme.",
+    "rating": 4.9
+  },
+  {
+    "title": "Krakatit",
+    "author": "Karel Čapek",
+    "year": 1922,
+    "annotation": "Příběh inženýra Prokopa, který vynalezne extrémně silnou trhavinu.",
+    "rating": 4.2
+  }
+]
