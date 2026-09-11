@@ -3,59 +3,66 @@
   <head>
     <meta charset="UTF-8" />
     <title>Evidence knih</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <div class="container-layout">
       <header class="navbar no-print">
         <h2>Seznam knih</h2>
-        <div class="search-bar">
-          <input type="text" placeholder="Zadejte název knihy..." />
-          <button type="submit" aria-label="Hledat">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </button>
-        </div>
 
         <div class="nav-actions">
           <a href="#" class="btn-print" id="print-btn">Vytisknout seznam</a>
           <a href="./login.html" class="btn-login">Přihlásit se</a>
         </div>
       </header>
+
       <div id="books"></div>
 
       <script>
         const container = document.getElementById("books");
 
-        fetch("/api/books.php")
-          .then((response) => response.json())
-          .then((books) => {
-            books.forEach((book) => {
-              const div = document.createElement("div");
+        function escapeHtml(text) {
+          const div = document.createElement("div");
+          div.textContent = text ?? "";
+          return div.innerHTML;
+        }
 
-              div.innerHTML = `
-              <a href="./detail.html?id=${book.id}">
-                <div class="book">
-                    <h3>${book.title}</h3>
-                    <p>Autor: ${book.author}</p>
-                    <p>Rok vydání: ${book.year}</p>
-                </div>
-              </a>
+        function loadBooks() {
+          fetch("/api/books.php", { cache: "no-store" })
+            .then((response) => response.json())
+            .then((books) => {
+              container.innerHTML = "";
+
+              books.forEach((book) => {
+                const div = document.createElement("div");
+
+                div.innerHTML = `
+                  <a href="./detail.html?id=${encodeURIComponent(book.id)}">
+                    <div class="book">
+                        <h3>${escapeHtml(book.title)}</h3>
+                        <p>Autor: ${escapeHtml(book.author)}</p>
+                        <p>Rok vydání: ${escapeHtml(book.year)}</p>
+                    </div>
+                  </a>
                 `;
 
-              container.appendChild(div);
-            });
-          });
+                container.appendChild(div);
+              });
+            })
+            .catch((err) => console.error("Chyba při načítání knih:", err));
+        }
 
-        document.getElementById("print-btn").addEventListener("click", () => {
+        loadBooks();
+
+        document.getElementById("print-btn").addEventListener("click", (e) => {
+          e.preventDefault();
           window.print();
+        });
+
+        window.addEventListener("pageshow", (event) => {
+          if (event.persisted) {
+            loadBooks();
+          }
         });
       </script>
     </div>

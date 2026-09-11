@@ -16,10 +16,10 @@
         </div>
       </header>
 
-      <div id="books"></div>
+      <div id="books-detail"></div>
 
       <script>
-        const container = document.getElementById("books");
+        const container = document.getElementById("books-detail");
 
         const urlParams = new URLSearchParams(window.location.search);
         const bookId = urlParams.get("id");
@@ -34,7 +34,7 @@
             })
             .then((book) => {
               container.innerHTML = `
-                <div class="book">
+                <div class="book-detail">
                       <h3>${book.title}</h3>
                       <p>Autor: ${book.author}</p>
                       <p>Rok vydání: ${book.year}</p>

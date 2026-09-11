@@ -1,18 +1,17 @@
 <?php
-require_once '/var/www/src/Database.php';
-
-$jsonPath = '/var/www/data/books.json';
-
+require_once __DIR__ . '/../../src/Database.php';
+require_once __DIR__ . '/../admin/config/auth.php';
+$jsonPath = __DIR__ . '/../../src/data/books.json';
 
 if (!file_exists($jsonPath)) {
-    header('Location: /admin/admin.php?import=' . urlencode('Soubor books.json nebyl nalezen.'));
+    header('Location: /admin/admin.php?import=' . urlencode('Soubor books.json nebyl nalezen!'));
     exit;
 }
 
 $books = json_decode(file_get_contents($jsonPath), true);
 
 if (!is_array($books)) {
-    header('Location: /admin/admin.php?import=' . urlencode('Soubor books.json má neplatný formát.'));
+    header('Location: /admin.php?import=' . urlencode('Soubor books.json má neplatný formát.'));
     exit;
 }
 
@@ -23,12 +22,8 @@ $skipped = 0;
 try {
     $pdo->beginTransaction();
 
-    $insertStmt = $pdo->prepare(
-        'INSERT INTO books (title, author, year, annotation, rating) VALUES (?, ?, ?, ?, ?)'
-    );
-    $checkStmt = $pdo->prepare(
-        'SELECT id FROM books WHERE title = ? AND author = ?'
-    );
+    $insertStmt = $pdo->prepare('INSERT INTO books (title, author, year, annotation, rating) VALUES (?, ?, ?, ?, ?)');
+    $checkStmt = $pdo->prepare('SELECT id FROM books WHERE title = ? AND author = ?');
 
     foreach ($books as $item) {
         $title      = $item['title'] ?? null;

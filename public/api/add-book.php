@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . '/../admin/config/auth.php';
 require_once '/var/www/src/Database.php';
 
 $errors = [];
