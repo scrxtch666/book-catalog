@@ -1,11 +1,13 @@
 <?php
-
 require_once __DIR__ . '/../admin/config/auth.php';
 require_once '/var/www/src/Database.php';
 
-$errors = [];
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 
-$values = [
+$errors = $_SESSION['add_book_errors'] ?? [];
+$values = $_SESSION['add_book_values'] ?? [
   'title' => '',
   'author' => '',
   'year' => '',
@@ -13,6 +15,8 @@ $values = [
   'rating' => ''
 ];
 
+unset($_SESSION['add_book_errors'], $_SESSION['add_book_values']);
+session_write_close();
 ?>
 
 <!DOCTYPE html>
@@ -33,10 +37,6 @@ $values = [
 
     <header class="navbar no-print">
 
-      <a href="../index.html" class="btn-print">
-        ← Zpět na přehled
-      </a>
-
       <h2>Administrace</h2>
 
       <div class="nav-actions">
@@ -52,7 +52,6 @@ $values = [
       </div>
 
     </header>
-
 
     <section class="card">
 
@@ -84,7 +83,6 @@ $values = [
 
         </div>
 
-
         <div class="form-group">
 
           <label for="author">
@@ -108,7 +106,6 @@ $values = [
           <?php endif; ?>
 
         </div>
-
 
         <div class="form-group">
 
@@ -135,9 +132,7 @@ $values = [
 
         </div>
 
-
         <div class="form-group">
-
           <label for="annotation">
             Anotace
           </label>
@@ -147,8 +142,12 @@ $values = [
             name="annotation"
             rows="4"><?= htmlspecialchars($values['annotation'], ENT_QUOTES, 'UTF-8') ?></textarea>
 
+          <?php if (isset($errors['annotation'])): ?>
+            <p class="error-message">
+              <?= htmlspecialchars($errors['annotation'], ENT_QUOTES, 'UTF-8') ?>
+            </p>
+          <?php endif; ?>
         </div>
-
 
         <div class="form-group">
 
@@ -175,7 +174,6 @@ $values = [
 
         </div>
 
-
         <button type="submit" class="btn-login">
           Uložit knihu
         </button>
@@ -184,11 +182,7 @@ $values = [
 
     </section>
 
-
-    <h2>Seznam knih</h2>
-
     <div id="books"></div>
-
 
     <script>
       const container = document.getElementById("books");
@@ -200,7 +194,7 @@ $values = [
           books.forEach((book) => {
 
             const link = document.createElement("a");
-            link.href = `../../detail.html?id=${encodeURIComponent(book.id)}`;
+            link.href = `../detail.html?id=${encodeURIComponent(book.id)}`;
 
             const div = document.createElement("div");
             div.className = "book";

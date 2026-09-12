@@ -2,9 +2,9 @@ CREATE TABLE books (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   author VARCHAR(255) NOT NULL,
-  year INT,
-  annotation TEXT,
-  rating DECIMAL(3,1)
+  year INT NOT NULL,
+  annotation TEXT NOT NULL,
+  rating DECIMAL(3,1) NOT NULL
 );
 
 CREATE TABLE admin_users (
