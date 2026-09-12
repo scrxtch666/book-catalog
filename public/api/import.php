@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../src/Database.php';
 require_once __DIR__ . '/../admin/config/auth.php';
+// Cesta na které se nachází import soubor
 $jsonPath = __DIR__ . '/../../src/data/books.json';
 
 if (!file_exists($jsonPath)) {

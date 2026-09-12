@@ -20,31 +20,54 @@
 
       <script>
         const container = document.getElementById("books-detail");
-
         const urlParams = new URLSearchParams(window.location.search);
         const bookId = urlParams.get("id");
 
         if (bookId) {
-          fetch(`/api/books.php?id=${bookId}`)
+          fetch(`/api/books.php?id=${encodeURIComponent(bookId)}`)
             .then((response) => {
               if (!response.ok) {
-                throw new Error(`Kniha s id ${bookId} neexistuje.`);
+                throw new Error(`Kniha s ID ${bookId} neexistuje.`);
               }
               return response.json();
             })
             .then((book) => {
-              container.innerHTML = `
-                <div class="book-detail">
-                      <h3>${book.title}</h3>
-                      <p>Autor: ${book.author}</p>
-                      <p>Rok vydání: ${book.year}</p>
-                      <p>Anotace: ${book.annotation}</p>
-                      <p>Hodnocení: ${book.rating} / 5</p>
-                </div>
-              `;
+              container.innerHTML = "";
+
+              // Vytvoření obalového divu
+              const detailDiv = document.createElement("div");
+              detailDiv.className = "book-detail";
+
+              const title = document.createElement("h3");
+              title.textContent = book.title;
+
+              const author = document.createElement("p");
+              author.textContent = `Autor: ${book.author}`;
+
+              const year = document.createElement("p");
+              year.textContent = `Rok vydání: ${book.year}`;
+
+              const annotation = document.createElement("p");
+              annotation.textContent = `Anotace: ${book.annotation}`;
+
+              const rating = document.createElement("p");
+              rating.textContent = `Hodnocení: ${book.rating} / 5`;
+
+              // Sestavení do sebe
+              detailDiv.appendChild(title);
+              detailDiv.appendChild(author);
+              detailDiv.appendChild(year);
+              detailDiv.appendChild(annotation);
+              detailDiv.appendChild(rating);
+
+              container.appendChild(detailDiv);
             })
             .catch((error) => {
-              container.innerHTML = `<p class="error-message">${error.message}</p>`;
+              container.innerHTML = "";
+              const errParagraph = document.createElement("p");
+              errParagraph.className = "error-message";
+              errParagraph.textContent = error.message;
+              container.appendChild(errParagraph);
             });
         } else {
           container.innerHTML = "<p>Chyba: V adrese chybí ID knihy.</p>";

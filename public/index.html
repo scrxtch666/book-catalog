@@ -2,6 +2,7 @@
 <html lang="cs">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Evidence knih</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
@@ -21,12 +22,6 @@
       <script>
         const container = document.getElementById("books");
 
-        function escapeHtml(text) {
-          const div = document.createElement("div");
-          div.textContent = text ?? "";
-          return div.innerHTML;
-        }
-
         function loadBooks() {
           fetch("/api/books.php", { cache: "no-store" })
             .then((response) => response.json())
@@ -34,19 +29,28 @@
               container.innerHTML = "";
 
               books.forEach((book) => {
+                const link = document.createElement("a");
+                link.href = `./detail.html?id=${encodeURIComponent(book.id)}`;
+                link.className = "book-card-link";
+
                 const div = document.createElement("div");
+                div.className = "book";
 
-                div.innerHTML = `
-                  <a href="./detail.html?id=${encodeURIComponent(book.id)}">
-                    <div class="book">
-                        <h3>${escapeHtml(book.title)}</h3>
-                        <p>Autor: ${escapeHtml(book.author)}</p>
-                        <p>Rok vydání: ${escapeHtml(book.year)}</p>
-                    </div>
-                  </a>
-                `;
+                const title = document.createElement("h3");
+                title.textContent = book.title;
 
-                container.appendChild(div);
+                const author = document.createElement("p");
+                author.textContent = `Autor: ${book.author}`;
+
+                const year = document.createElement("p");
+                year.textContent = `Rok vydání: ${book.year}`;
+
+                div.appendChild(title);
+                div.appendChild(author);
+                div.appendChild(year);
+
+                link.appendChild(div);
+                container.appendChild(link);
               });
             })
             .catch((err) => console.error("Chyba při načítání knih:", err));

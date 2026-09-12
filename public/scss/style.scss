@@ -1,3 +1,4 @@
+// Proměnné
 $text-dark: #1e293b;
 $btn-bg: #1e293b;
 $btn-hover: #0f172a;
@@ -173,11 +174,24 @@ a {
   }
 }
 
+
 #books {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   margin-top: 1rem;
+}
+// Responzivita - tablet a mobilní zařízení
+@media (max-width: 900px) {
+  #books {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  #books {
+    grid-template-columns: 1fr;
+  }
 }
 
 #books-detail {
@@ -365,3 +379,5 @@ a {
     }
   }
 }
+
+

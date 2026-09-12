@@ -5,7 +5,7 @@ require_once '/var/www/src/Database.php';
 if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
-
+// PRG
 $errors = $_SESSION['add_book_errors'] ?? [];
 $values = $_SESSION['add_book_values'] ?? [
   'title' => '',
@@ -15,6 +15,7 @@ $values = $_SESSION['add_book_values'] ?? [
   'rating' => ''
 ];
 
+// Smazání dat se session
 unset($_SESSION['add_book_errors'], $_SESSION['add_book_values']);
 session_write_close();
 ?>
@@ -64,7 +65,7 @@ session_write_close();
           <label for="title">
             Název
           </label>
-
+          <!-- Ochrana proti XSS pomocí htmlspecialchars -->
           <input
             type="text"
             id="title"
@@ -73,6 +74,7 @@ session_write_close();
             value="<?= htmlspecialchars($values['title'], ENT_QUOTES, 'UTF-8') ?>"
             required>
 
+          <!-- Error msg -->
           <?php if (isset($errors['title'])): ?>
 
             <p class="error-message">
@@ -174,7 +176,7 @@ session_write_close();
 
         </div>
 
-        <button type="submit" class="btn-login">
+        <button type="submit" class="login-button">
           Uložit knihu
         </button>
 
@@ -186,7 +188,7 @@ session_write_close();
 
     <script>
       const container = document.getElementById("books");
-
+      // Načtení dat z API
       fetch("/api/books.php")
         .then((response) => response.json())
         .then((books) => {
@@ -207,7 +209,7 @@ session_write_close();
 
             const year = document.createElement("p");
             year.textContent = `Rok vydání: ${book.year}`;
-
+            // Sestavení prvků pod sebe
             div.appendChild(title);
             div.appendChild(author);
             div.appendChild(year);
